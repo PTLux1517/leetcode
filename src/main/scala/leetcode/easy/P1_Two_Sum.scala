@@ -2,9 +2,12 @@ package leetcode.easy
 
 import leetcode.{ColorPrinter, LeetcodeProblem}
 
-import scala.collection.mutable
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
-import scala.util.boundary, boundary.break
+
+import scala.collection.mutable
+import scala.concurrent.duration.FiniteDuration
+//import scala.util.boundary, boundary.break
+import scala.util.control.Breaks._
 
 
 object P1_Two_Sum extends LeetcodeProblem {
@@ -13,19 +16,35 @@ object P1_Two_Sum extends LeetcodeProblem {
   val probNum:String = prob.head.drop(1) //drop leading P
   val probName:String = prob.tail.mkString(" ").dropRight(1) //drop trailing $
 
+//  def twoSum: Array[Int] => Int    => Array[Int]
+//            = nums       => target => {
+//    val desiredComplementToPrevIdxMap = mutable.Map[Int,Int]()
+//    boundary:
+//      for ((elem,idx) <- nums.zipWithIndex) {
+//        desiredComplementToPrevIdxMap.get(elem) match
+//          case Some(prevIdx) => break(Array(prevIdx,idx)) //current elem is a compliment we were looking for previously
+//          case None => desiredComplementToPrevIdxMap.put(target-elem,idx)
+//      }
+//      Array.empty
+//  }
+
   def twoSum: Array[Int] => Int    => Array[Int]
             = nums       => target => {
-    val desiredComplementToPrevIdxMap = mutable.Map[Int,Int]()
-    boundary:
+    val desiredComplementToPrevIdxMap = mutable.Map[Int, Int]()
+    var res:Array[Int] = Array.empty
+    breakable {
       for ((elem,idx) <- nums.zipWithIndex) {
         desiredComplementToPrevIdxMap.get(elem) match
-          case Some(prevIdx) => break(Array(prevIdx,idx)) //current elem is a compliment we were looking for previously
+          case Some(prevIdx) => //current elem is a compliment we were looking for previously
+            res = Array(prevIdx,idx)
+            break
           case None => desiredComplementToPrevIdxMap.put(target-elem,idx)
       }
-      Array.empty
+    }
+    res
   }
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
     val arg1 = Array(2,7,11,15)
     val arg2 = 9

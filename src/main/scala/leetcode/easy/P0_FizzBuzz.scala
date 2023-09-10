@@ -4,6 +4,8 @@ import leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
+import scala.concurrent.duration.FiniteDuration
+
 
 object P0_FizzBuzz extends LeetcodeProblem {
 
@@ -77,7 +79,7 @@ object P0_FizzBuzz extends LeetcodeProblem {
 
 
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
     val arg1 = 105
 

@@ -4,10 +4,9 @@ import leetcode._, easy._, medium._, hard._
 
 import java.nio.file.{Files, Paths, Path}
 
-import scala.concurrent.duration.*
+import scala.concurrent.duration.{FiniteDuration, MILLISECONDS}
 import scala.io.StdIn.readLine
-import scala.jdk.CollectionConverters.*
-import scala.jdk.DurationConverters.*
+import scala.jdk.CollectionConverters.IteratorHasAsScala
 
 
 //LeetCode uses Scala 2.13.7
@@ -45,7 +44,7 @@ object Runner {
     val clazz:Class[?] = Class.forName(f"leetcode.$problemDifficulty.$problemClass$$")
     val problem:LeetcodeProblem = clazz.getField("MODULE$").get(clazz).asInstanceOf[LeetcodeProblem]
 
-    val runTime:FiniteDuration = problem.run().toScala
+    val runTime:FiniteDuration = problem.run()
 
     println(f"\nExecution took ${runTime.toUnit(MILLISECONDS)} ms")
   }

@@ -4,6 +4,8 @@ import leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
+import scala.concurrent.duration.FiniteDuration
+
 
 object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
 
@@ -15,7 +17,7 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
     0.0
   }
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
     val arg1 = Array(1,2)
     val arg2 = Array(3,4)

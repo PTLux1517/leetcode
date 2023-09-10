@@ -4,6 +4,8 @@ import leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
+import scala.concurrent.duration.FiniteDuration
+
 
 object P2_Add_Two_Numbers extends LeetcodeProblem {
 
@@ -99,7 +101,7 @@ object P2_Add_Two_Numbers extends LeetcodeProblem {
 //    sumListHead
 //  }
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
     val arg1 = ListNode(2)
     arg1.next = ListNode(4)

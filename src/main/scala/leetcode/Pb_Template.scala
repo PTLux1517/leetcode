@@ -4,6 +4,8 @@ import leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
+import scala.concurrent.duration.FiniteDuration
+
 
 object Pb_Template extends LeetcodeProblem {
 
@@ -13,7 +15,7 @@ object Pb_Template extends LeetcodeProblem {
 
   def providedMethod():Unit = {}
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
     val arg1 = 0
 

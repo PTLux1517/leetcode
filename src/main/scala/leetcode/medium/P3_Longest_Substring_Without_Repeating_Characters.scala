@@ -4,6 +4,8 @@ import leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
+import scala.concurrent.duration.FiniteDuration
+
 
 object P3_Longest_Substring_Without_Repeating_Characters extends LeetcodeProblem {
 
@@ -38,7 +40,7 @@ object P3_Longest_Substring_Without_Repeating_Characters extends LeetcodeProblem
     res.maxLen
   }
 
-  def run():Duration = {
+  def run():FiniteDuration = {
     /* Provided input */
 //    val arg1 = "pwwkew"
     val arg1 = "dvdf"
