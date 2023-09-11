@@ -13,7 +13,7 @@ object Runner {
     os.walk(path=os.pwd/"src"/"main"/"scala"/"com"/"github"/"ptlux1517"/"leetcode")
     .filter(os.isFile(_))
     .map(_.toString)
-    .map(_.stripPrefix("/home/corytomlinson/ScalaProjects/LeetCode/src/main/scala/com/github/ptlux1517/leetcode/"))
+    .map(_.stripPrefix(f"${os.pwd.toString}/src/main/scala/com/github/ptlux1517/leetcode/"))
     .map(_.stripSuffix(".scala"))
     .filter(s => List("easy","medium","hard").exists(s.startsWith))
     .map(_.split('/')) //split package and class
