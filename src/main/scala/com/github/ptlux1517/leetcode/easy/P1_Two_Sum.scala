@@ -1,9 +1,8 @@
-package leetcode.easy
+package com.github.ptlux1517.leetcode.easy
 
-import leetcode.{ColorPrinter, LeetcodeProblem}
+import com.github.ptlux1517.leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
-
 import scala.collection.mutable
 import scala.concurrent.duration.FiniteDuration
 //import scala.util.boundary, boundary.break

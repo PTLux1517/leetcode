@@ -1,4 +1,5 @@
-package leetcode
+package com.github.ptlux1517.leetcode
+
 
 object ColorPrinter {
 

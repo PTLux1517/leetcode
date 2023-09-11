@@ -1,6 +1,4 @@
-package leetcode
-
-import leetcode.{ColorPrinter, LeetcodeProblem}
+package com.github.ptlux1517.leetcode
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 

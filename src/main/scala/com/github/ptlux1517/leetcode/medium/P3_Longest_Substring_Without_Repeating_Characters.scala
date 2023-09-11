@@ -1,9 +1,8 @@
-package leetcode.medium
+package com.github.ptlux1517.leetcode.medium
 
-import leetcode.{ColorPrinter, LeetcodeProblem}
+import com.github.ptlux1517.leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
-
 import scala.concurrent.duration.FiniteDuration
 
 
@@ -12,19 +11,6 @@ object P3_Longest_Substring_Without_Repeating_Characters extends LeetcodeProblem
   val prob:Array[String] = this.getClass.getSimpleName.split('_')
   val probNum:String = prob.head.drop(1) //drop leading P
   val probName:String = prob.tail.mkString(" ").dropRight(1) //drop trailing $
-  
-//  def lengthOfLongestSubstring(s: String): Int = {
-//    val list = s.scanLeft("")(op=
-//      (currStr,currChar) => {
-//        val res = currStr.substring(currStr.indexOf(currChar)+1) + currChar
-//        print(f"($currStr + $currChar -> $res) ")
-//        res
-//      }
-//    )
-////    println(list)
-//    list.map(_.length)
-//    .max
-//  }
 
   def lengthOfLongestSubstring(s:String):Int = {
     class Acc(var substr:String = "", var maxLen:Int = 0)
@@ -42,8 +28,8 @@ object P3_Longest_Substring_Without_Repeating_Characters extends LeetcodeProblem
 
   def run():FiniteDuration = {
     /* Provided input */
-//    val arg1 = "pwwkew"
-    val arg1 = "dvdf"
+    val arg1 = "pwwkew"
+//    val arg1 = "dvdf"
 
     /* Expected output */
     val exp = 3
