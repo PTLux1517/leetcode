@@ -46,10 +46,10 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
     val singleMedian = combinedLength%2 == 1
     val stepsToMedian = if singleMedian then combinedLength/2 + 1 else combinedLength/2
     classifyRelation(nums1,nums2) match {
-      case (_, Relation.Empty)                               => median(nums1)
-      case (Relation.Empty, _)                               => median(nums2)
-      case (Relation.DisjointBefore, Relation.DisjointAfter) => medianDisjoint(numsBefore=nums1, numsAfter=nums2, singleMedian, stepsToMedian)
-      case (Relation.DisjointAfter, Relation.DisjointBefore) => medianDisjoint(numsBefore=nums2, numsAfter=nums1, singleMedian, stepsToMedian)
+      case (_, Relation.Empty)                               => medianOne(nums1)
+      case (Relation.Empty, _)                               => medianOne(nums2)
+      case (Relation.DisjointBefore, Relation.DisjointAfter) => medianTwoDisjoint(numsBefore=nums1, numsAfter=nums2, singleMedian, stepsToMedian)
+      case (Relation.DisjointAfter, Relation.DisjointBefore) => medianTwoDisjoint(numsBefore=nums2, numsAfter=nums1, singleMedian, stepsToMedian)
       case _                                                 => binaryApproachMedian(
         nums1, nums2, i1 = -1, i2 = -1, singleMedian, stepsToMedian, stepsTaken=0
       )
@@ -77,16 +77,14 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
           case (l1,l2) if i1+1 < l1 => nums1(i1+1)
           case (l1,l2) if i2+1 < l2 => nums2(i2+1)
         }
-        return (greaterElem + nextGreatestElem).toDouble / 2
+        return (greaterElem + nextGreatestElem) / 2d
       }
     }
     else {
       val binaryJump = if remainingSteps==1 then 1 else remainingSteps / 2
       val jumpIdx1 = i1+binaryJump min nums1.length-1
       val jumpIdx2 = i2+binaryJump min nums2.length-1
-      val jumpElem1 = nums1(jumpIdx1)
-      val jumpElem2 = nums2(jumpIdx2)
-      if jumpElem1 <= jumpElem2 then {
+      if nums1(jumpIdx1) <= nums2(jumpIdx2) then {
         binaryApproachMedian(nums1, nums2, jumpIdx1, i2, singleMedian, stepsToMedian, stepsTaken+(jumpIdx1-i1))
       }
       else {
@@ -97,7 +95,7 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
 
   private def mid(low:Int, high:Int):Int = low + (high-low)/2
 
-  private def median(nums:Array[Int]):Double = {
+  private def medianOne(nums:Array[Int]):Double = {
     nums.length match
       case len if len%2 == 1 =>
         val midC = mid(0,len-1)
@@ -105,10 +103,10 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
       case len if len%2 == 0 =>
         val midL = mid(0,len-1)
         val midR = midL+1
-        (nums(midL)+nums(midR)).toDouble / 2
+        (nums(midL)+nums(midR)) / 2d
   }
 
-  private def medianDisjoint(
+  private def medianTwoDisjoint(
     numsBefore:Array[Int], numsAfter:Array[Int], singleMedian:Boolean, stepsToMedian:Int
   ):Double = {
     if stepsToMedian <= numsBefore.length then { //start of median is within nums1
@@ -116,10 +114,10 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
         numsBefore(stepsToMedian-1)
       }
       else if stepsToMedian == numsBefore.length then { //two element median spans both arrays
-        (numsBefore.last + numsAfter.head).toDouble / 2
+        (numsBefore.last + numsAfter.head) / 2d
       }
       else { //two element median is within nums1
-        (numsBefore(stepsToMedian-1) + numsBefore(stepsToMedian)).toDouble / 2
+        (numsBefore(stepsToMedian-1) + numsBefore(stepsToMedian)) / 2d
       }
     }
     else if singleMedian then { //start of median is within nums2
@@ -127,7 +125,7 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
     }
     else {
       val idx = stepsToMedian-numsBefore.length-1
-      (numsAfter(idx) + numsAfter(idx+1)).toDouble / 2
+      (numsAfter(idx) + numsAfter(idx+1)) / 2d
     }
   }
 
