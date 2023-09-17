@@ -14,35 +14,9 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
   val probNum:String = prob.head.drop(1) //drop leading P
   val probName:String = prob.tail.mkString(" ").dropRight(1) //drop trailing $
 
-
-//  private enum Direction {case L, R, None}
-
-//  def findMedianSortedArrays(nums1:Array[Int], nums2:Array[Int]):Double = {
-//    (nums1.length, nums2.length) match {
-//      case (_,0) => median(nums1)
-//      case (0,_) => median(nums2)
-//      case _     => f(
-//        nums1=nums1, low1=0, high1=nums1.length-1, prevDir1 = Direction.None,
-//        nums2=nums2, low2=0, high2=nums2.length-1, prevDir2 = Direction.None
-//      )
-//    }
-//  }
-
-//  private def f(
-//    nums1:Array[Int],low1:Int,high1:Int,prevDir1:Direction,
-//    nums2:Array[Int],low2:Int,high2:Int,prevDir2:Direction
-//  ):Double = {
-//    (nums1(mid(low1,high1)),nums2(mid(low2,high2))) match {
-//      case (e1,e2) if e1 == e2 => {}
-//      case (e1,e2) if e1 <= e2 => {}
-//    }
-//
-//    0.0
-//  }
-
-
   def findMedianSortedArrays(nums1:Array[Int], nums2:Array[Int]):Double = {
     val combinedLength = nums1.length + nums2.length
+    if combinedLength < 100 then return medianOne((nums1 ++ nums2).sorted) //to circumvent LeetCode timer issues for small m + n
     val singleMedian = combinedLength%2 == 1
     val stepsToMedian = if singleMedian then combinedLength/2 + 1 else combinedLength/2
     classifyRelation(nums1,nums2) match {
@@ -156,14 +130,14 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem {
 
   def run():FiniteDuration = {
     /* Provided input */
-//    val arg1 = Array(1,2)
-//    val arg2 = Array(3,4)
-    val arg1 = Array(1,2,3)
-    val arg2 = Array(4,5,6)
+    val arg1 = Array(1,2)
+    val arg2 = Array(3,4)
+//    val arg1 = Array(1,2,3,7,8,9,13,14,15)
+//    val arg2 = Array(4,5,6,10,11,12,16,17,18)
 
     /* Expected output */
-//    val exp = 2.5
-    val exp = 3.5
+    val exp = 2.5
+//    val exp = 9.5
 
     /* Computed output with run time */
     val start = Instant.now()
