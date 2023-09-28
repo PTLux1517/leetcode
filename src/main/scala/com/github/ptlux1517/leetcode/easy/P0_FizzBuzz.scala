@@ -4,16 +4,55 @@ import com.github.ptlux1517.leetcode.{ColorPrinter, LeetcodeProblem}
 
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
-import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{FiniteDuration, DurationInt}
 import scala.io.StdIn.readLine
 
 
-object P0_FizzBuzz extends LeetcodeProblem {
+object P0_FizzBuzz extends LeetcodeProblem:
 
-  val prob:Array[String] = this.getClass.getSimpleName.split('_')
-  val probNum:String = prob.head.drop(1) //drop leading P
-  val probName:String = prob.tail.mkString(" ").dropRight(1) //drop trailing $
+  val className:Array[String] = this.getClass.getSimpleName.split('_')
+  val probNum:String = className.head.drop(1) //drop leading P
+  val probName:String = className.tail.mkString(" ").dropRight(1) //drop trailing $
+
+
+  def run():FiniteDuration =
+    /* Provided input */
+    val arg1 = 105
+
+    /* Problem description with computed output */
+    print(f"\nProblem ${probNum}: ${probName}\n")
+
+    /* Computed output with run time */
+    val start = Instant.now()
+//    fizzbuzz(arg1)
+//    (1 to arg1).foreach(fizzbuzz andThen println)
+//    print((1 to arg1).map(fizzbuzz).mkString("[",", ","]"))
+    print(fb(replacementMap)(1 to arg1).mkString("[",", ","]"))
+    val end = Instant.now()
+
+    /* Pass/Fail status */
+    ColorPrinter.printPassFail(pass = true)
+
+    Duration.between(start,end)
+
+  end run
+
+
+  private val replacementMap = Map(
+    3 -> "Fizz",
+    5 -> "Buzz",
+    7 -> "Pop"
+  )
+
+  def fb: Map[Int,String] => Iterable[Int] => Iterable[String]
+        = replacementMap  => input         =>
+    input.map(elem => {
+      var str = ""
+      replacementMap.foreach((divisor,replacement) => if (elem % divisor == 0) str += replacement)
+      if str.isEmpty then elem.toString else str
+    })
+
+  end fb
 
 
 
@@ -63,44 +102,6 @@ object P0_FizzBuzz extends LeetcodeProblem {
 //  }
 
 
-
-  private val replacementMap = Map(
-    3 -> "Fizz",
-    5 -> "Buzz",
-    7 -> "Pop"
-  )
-
-  def fb: Map[Int,String] => Iterable[Int] => Iterable[String]
-        = replMap         => input         => {
-    input.map(elem => {
-      var str = ""
-      replMap.foreach((k,v) => {if (elem % k == 0) str += v})
-      if str.isEmpty then elem.toString else str
-    })
-  }
-
-
-
-  def run():FiniteDuration = {
-    /* Provided input */
-    val arg1 = 105
-
-    /* Problem description with computed output */
-    print(f"\nProblem ${probNum}: ${probName}\n")
-
-    /* Computed output with run time */
-    val start = Instant.now()
-//    fizzbuzz(arg1)
-//    (1 to arg1).foreach(fizzbuzz andThen println)
-//    print((1 to arg1).map(fizzbuzz).mkString("[",", ","]"))
-    print(fb(replacementMap)(1 to arg1).mkString("[",", ","]"))
-    val end = Instant.now()
-
-    /* Pass/Fail status */
-    ColorPrinter.printPassFail(pass = true)
-
-    Duration.between(start,end)
-  }
 
 /* Code 128 Barcode Encoder */
 //  def run():FiniteDuration = {
@@ -238,4 +239,6 @@ object P0_FizzBuzz extends LeetcodeProblem {
 //
 //    0.seconds
 //  }
-}
+
+
+end P0_FizzBuzz
