@@ -28,7 +28,7 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
 
     /* Problem description with computed output */
     print(f"""
-      |Problem ${probNum}: ${probName}
+      |Problem $probNum: $probName
       |Given a string s, return the longest palindromic substring in s.
       |
       |Constraints:
@@ -73,6 +73,8 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
            | SINGLE_MID_POINT => 0
         case DOUBLE_MID_POINT => 1
       this
+
+  end LongestPalindromeInfo
 
 
   def longestPalindrome(s:String):String =
@@ -147,9 +149,9 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
 
   private def retrieveLongestPalindromeSubstring(s:String, pal:LongestPalindromeInfo):String =
     pal.kind match
-      case CONSECUTIVE_CHAR => s.substring(pal.idx                  , pal.idx + pal.len)
-      case SINGLE_MID_POINT
-         | DOUBLE_MID_POINT => s.substring(pal.idx - pal.shoulderLen, pal.idx + pal.midPtOffset + pal.shoulderLen + 1)
+    case CONSECUTIVE_CHAR => s.substring(pal.idx                  , pal.idx + pal.len)
+    case SINGLE_MID_POINT
+       | DOUBLE_MID_POINT => s.substring(pal.idx - pal.shoulderLen, pal.idx + pal.midPtOffset + pal.shoulderLen + 1)
 
   end retrieveLongestPalindromeSubstring
 

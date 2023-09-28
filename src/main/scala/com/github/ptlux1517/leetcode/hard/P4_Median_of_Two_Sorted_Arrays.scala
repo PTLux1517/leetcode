@@ -65,13 +65,13 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem:
     val singleMedian = combinedLength%2 == 1
     val stepsToMedian = if singleMedian then combinedLength/2 + 1 else combinedLength/2
     classifyRelation(nums1,nums2) match
-      case (_, Relation.Empty)                               => medianOne(nums1)
-      case (Relation.Empty, _)                               => medianOne(nums2)
-      case (Relation.DisjointBefore, Relation.DisjointAfter) => medianTwoDisjoint(numsBefore=nums1, numsAfter=nums2, singleMedian, stepsToMedian)
-      case (Relation.DisjointAfter, Relation.DisjointBefore) => medianTwoDisjoint(numsBefore=nums2, numsAfter=nums1, singleMedian, stepsToMedian)
-      case _                                                 => binaryApproachMedian(
-        nums1, nums2, i1 = -1, i2 = -1, singleMedian, stepsToMedian, stepsTaken=0
-      )
+    case (_, Relation.Empty)                               => medianOne(nums1)
+    case (Relation.Empty, _)                               => medianOne(nums2)
+    case (Relation.DisjointBefore, Relation.DisjointAfter) => medianTwoDisjoint(numsBefore=nums1, numsAfter=nums2, singleMedian, stepsToMedian)
+    case (Relation.DisjointAfter, Relation.DisjointBefore) => medianTwoDisjoint(numsBefore=nums2, numsAfter=nums1, singleMedian, stepsToMedian)
+    case _                                                 => binaryApproachMedian(
+      nums1, nums2, i1 = -1, i2 = -1, singleMedian, stepsToMedian, stepsTaken=0
+    )
   end findMedianSortedArrays
 
 
@@ -88,13 +88,13 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem:
         case (-1,_) => nums2(i2)
         case _      => nums1(i1) max nums2(i2)
       if singleMedian
-      then return greaterElem
+      then greaterElem
       else
         val nextGreatestElem = (nums1.length,nums2.length) match
           case (l1,l2) if i1+1 < l1 && i2+1 < l2 => nums1(i1+1) min nums2(i2+1)
           case (l1,l2) if i1+1 < l1 => nums1(i1+1)
           case (l1,l2) if i2+1 < l2 => nums2(i2+1)
-        return (greaterElem + nextGreatestElem) / 2d
+        (greaterElem + nextGreatestElem) / 2d
     else
       val binaryJump = if remainingSteps==1 then 1 else remainingSteps/2
       val jumpIdx1 = i1+binaryJump min nums1.length-1
@@ -110,13 +110,13 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem:
 
   private def medianOne(nums:Array[Int]):Double =
     nums.length match
-      case len if len%2 == 1 =>
-        val midC = mid(0,len-1)
-        nums(midC)
-      case len if len%2 == 0 =>
-        val midL = mid(0,len-1)
-        val midR = midL+1
-        (nums(midL)+nums(midR)) / 2d
+    case len if len%2 == 1 =>
+      val midC = mid(0,len-1)
+      nums(midC)
+    case len if len%2 == 0 =>
+      val midL = mid(0,len-1)
+      val midR = midL+1
+      (nums(midL)+nums(midR)) / 2d
   end medianOne
 
 
@@ -151,17 +151,17 @@ object P4_Median_of_Two_Sorted_Arrays extends LeetcodeProblem:
 
   private def classifyRelation(nums1:Array[Int], nums2:Array[Int]):(Relation,Relation) =
     (nums1.length, nums2.length) match
-      case (_,0) => (Relation.DisjointBefore, Relation.Empty)
-      case (0,_) => (Relation.Empty, Relation.DisjointAfter)
-      case _     =>
-        (nums1.head, nums1.last, nums2.head, nums2.last) match
-          case (lo1,hi1,lo2,hi2) if hi1<=lo2 => (Relation.DisjointBefore, Relation.DisjointAfter)
-          case (lo1,hi1,lo2,hi2) if hi2<=lo1 => (Relation.DisjointAfter, Relation.DisjointBefore)
-          case (lo1,hi1,lo2,hi2) if lo1==lo2 && hi1==hi2 => (Relation.EqualBounds, Relation.EqualBounds)
-          case (lo1,hi1,lo2,hi2) if lo1<=lo2 && hi1>=hi2 => (Relation.Contains, Relation.Within)
-          case (lo1,hi1,lo2,hi2) if lo1>=lo2 && hi1<=hi2 => (Relation.Within, Relation.Contains)
-          case (lo1,hi1,lo2,hi2) if lo1<=lo2 && hi1<=hi2 => (Relation.OverlapBefore, Relation.OverlapAfter)
-          case (lo1,hi1,lo2,hi2) if lo1>=lo2 && hi1>=hi2 => (Relation.OverlapAfter, Relation.OverlapBefore)
+    case (_,0) => (Relation.DisjointBefore, Relation.Empty)
+    case (0,_) => (Relation.Empty, Relation.DisjointAfter)
+    case _     =>
+      (nums1.head, nums1.last, nums2.head, nums2.last) match
+      case (lo1,hi1,lo2,hi2) if hi1<=lo2 => (Relation.DisjointBefore, Relation.DisjointAfter)
+      case (lo1,hi1,lo2,hi2) if hi2<=lo1 => (Relation.DisjointAfter, Relation.DisjointBefore)
+      case (lo1,hi1,lo2,hi2) if lo1==lo2 && hi1==hi2 => (Relation.EqualBounds, Relation.EqualBounds)
+      case (lo1,hi1,lo2,hi2) if lo1<=lo2 && hi1>=hi2 => (Relation.Contains, Relation.Within)
+      case (lo1,hi1,lo2,hi2) if lo1>=lo2 && hi1<=hi2 => (Relation.Within, Relation.Contains)
+      case (lo1,hi1,lo2,hi2) if lo1<=lo2 && hi1<=hi2 => (Relation.OverlapBefore, Relation.OverlapAfter)
+      case (lo1,hi1,lo2,hi2) if lo1>=lo2 && hi1>=hi2 => (Relation.OverlapAfter, Relation.OverlapBefore)
   end classifyRelation
 
 

@@ -20,7 +20,7 @@ object P0_FizzBuzz extends LeetcodeProblem:
     val arg1 = 105
 
     /* Problem description with computed output */
-    print(f"\nProblem ${probNum}: ${probName}\n")
+    print(f"\nProblem $probNum: $probName\n")
 
     /* Computed output with run time */
     val start = Instant.now()
