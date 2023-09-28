@@ -7,15 +7,14 @@ import java.time.{Duration, Instant, temporal}, temporal.Temporal
 import scala.concurrent.duration.FiniteDuration
 
 
-object Pb_Template extends LeetcodeProblem {
+object Pb_Template extends LeetcodeProblem:
 
-  val prob:Array[String] = this.getClass.getSimpleName.split('_')
-  val probNum:String = prob.head.drop(1) //drop leading P
-  val probName:String = prob.tail.mkString(" ").dropRight(1) //drop trailing $
+  val className:Array[String] = this.getClass.getSimpleName.split('_')
+  val probNum:String = className.head.drop(1) //drop leading P
+  val probName:String = className.tail.mkString(" ").dropRight(1) //drop trailing $
 
-  def providedMethod():Unit = {}
 
-  def run():FiniteDuration = {
+  def run():FiniteDuration =
     /* Provided input */
     val arg1 = 0
 
@@ -29,7 +28,7 @@ object Pb_Template extends LeetcodeProblem {
 
     /* Problem description with computed output */
     print(f"""
-      |Problem ${probNum}: ${probName}
+      |Problem $probNum: $probName
       |<Description>
       |
       |Constraints:
@@ -45,5 +44,14 @@ object Pb_Template extends LeetcodeProblem {
     ColorPrinter.printPassFail(pass = false)
 
     Duration.between(start,end)
-  }
-}
+
+  end run
+
+
+  def providedMethod():Unit =
+    ???
+
+  end providedMethod
+
+
+end Pb_Template
