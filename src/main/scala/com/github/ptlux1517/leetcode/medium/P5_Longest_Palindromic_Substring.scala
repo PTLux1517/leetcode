@@ -82,16 +82,15 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
 
     var sol = LongestPalindromeInfo()
     var currLen = 0
-
     var consecPtr = 0
 
     for
       i <- s.indices.dropRight(1)
-      if 0 <= i-sol.shoulderLen && i+sol.midPtOffset+sol.shoulderLen < sLen //only check i if it can produce a longer palindrome
+      if 0 <= i-sol.shoulderLen && i+sol.midPtOffset+sol.shoulderLen < sLen //only check i if it can produce a longer palindrome within bounds
     do
+      /* Count any consecutive chars */
       var consecCt = 0
-
-      if consecPtr <= i
+      if consecPtr <= i //allow i to catch back up in order to not count the same char multiple times in future iterations
       then while
         consecCt += 1 //count current char
         consecPtr += 1
@@ -101,6 +100,7 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
       if consecCt > sol.len
       then sol = sol.copy(kind=CONSECUTIVE_CHAR, idx=consecPtr-consecCt, len=consecCt).updateShoulderLenAndMidPtOffset()
       else
+        /* Check if a larger single mid point palindrome exists */
         var prevIdx = i-sol.shoulderLen-1
         var nextIdx = i+sol.shoulderLen+1
         if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
@@ -108,7 +108,7 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
           currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=false,sArr,sLen)
           if currLen > sol.len
           then sol = sol.copy(kind=SINGLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
-
+        /* Check if a larger double mid point palindrome exists */
         prevIdx = i-sol.shoulderLen
         nextIdx = i+1+sol.shoulderLen
         if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
@@ -116,8 +116,6 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
           currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=true,sArr,sLen)
           if currLen > sol.len
           then sol = sol.copy(kind=DOUBLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
-
-      println(f"($i,$consecPtr): $sol")
     end for
 
     if sol.len == 0 then s.take(1) else retrieveLongestPalindromeSubstring(s, sol)
