@@ -5,6 +5,7 @@ import com.github.ptlux1517.leetcode.{ColorPrinter, LeetcodeProblem}
 import java.time.{Duration, Instant, temporal}, temporal.Temporal
 
 import scala.concurrent.duration.FiniteDuration
+import scala.util.boundary, boundary.break
 
 
 object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
@@ -17,9 +18,11 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
   def run():FiniteDuration =
     /* Provided input */
     val arg1 = "babad"
+//    val arg1 = "vbpgvehmsdocuqfnpzsqqsjbjkvzpqsubqbpjhzojdtkjcambviauhsxqvejgehzrhhvrgulubmirbppvbkftvazscxifsxtoarrdeyuihzcenqendvnthfdpotgpegdlaildigloesnfxkjichsxygazrvgbecuzkcdrgextmysxqerrueecpneynciasevytmatvqgleipwlaxwgajijkuceezmbtiigc"
 
     /* Expected output */
     val exp = "bab"
+//    val exp = "sqqs"
 
     /* Computed output with run time */
     val start = Instant.now()
@@ -98,26 +101,25 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
         consecPtr += 1
         consecPtr<sLen && sArr(consecPtr)==sArr(consecPtr-1)
       do {}
-
       if consecCt > sol.len
       then sol = sol.copy(kind=CONSECUTIVE_CHAR, idx=consecPtr-consecCt, len=consecCt).updateShoulderLenAndMidPtOffset()
-      else
-        /* Check if a larger single mid point palindrome exists */
-        var prevIdx = i-sol.shoulderLen-1
-        var nextIdx = i+sol.shoulderLen+1
-        if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
-        then
-          currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=false,sArr,sLen)
-          if currLen > sol.len
-          then sol = sol.copy(kind=SINGLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
-        /* Check if a larger double mid point palindrome exists */
-        prevIdx = i-sol.shoulderLen
-        nextIdx = i+1+sol.shoulderLen
-        if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
-        then
-          currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=true,sArr,sLen)
-          if currLen > sol.len
-          then sol = sol.copy(kind=DOUBLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
+      /* Check if a larger single mid point palindrome exists */
+      var prevIdx = i-sol.shoulderLen-1
+      var nextIdx = i+sol.shoulderLen+1
+      if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
+      then
+        currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=false,sArr,sLen)
+        if currLen > sol.len
+        then sol = sol.copy(kind=SINGLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
+      /* Check if a larger double mid point palindrome exists */
+      prevIdx = i-sol.shoulderLen
+      nextIdx = i+1+sol.shoulderLen
+      if 0<=prevIdx && nextIdx<sLen && sArr(prevIdx)==sArr(nextIdx)
+      then
+        currLen = lengthOfPalindromeGivenMidPoint(i,twoElemMidPt=true,sArr,sLen)
+        if currLen > sol.len
+        then sol = sol.copy(kind=DOUBLE_MID_POINT, idx=i, len=currLen).updateShoulderLenAndMidPtOffset()
+      println(f"($i,$consecPtr): $sol")
     end for
 
     if sol.len == 0 then s.take(1) else retrieveLongestPalindromeSubstring(s, sol)
@@ -139,8 +141,11 @@ object P5_Longest_Palindromic_Substring extends LeetcodeProblem:
 
     val indices = revIndices zip fwdIndices //to truncate the longer of the two
 
-    for (r,f) <- indices
-    do if s(r)==s(f) then palLengthCounter += 2
+    boundary:
+      for (r,f) <- indices do
+        if s(r)==s(f)
+        then palLengthCounter += 2
+        else break()
 
     palLengthCounter
 
